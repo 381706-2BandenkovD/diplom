@@ -2,7 +2,6 @@
 ##The emergence of complex oscillatory modes in the ECM model
 
 #### Linux
-
 ```
 sudo apt-get update -y
 sudo apt-get install -y libboost-python-dev
