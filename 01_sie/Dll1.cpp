@@ -143,8 +143,8 @@ std::vector<double> vec_Jac_Y(std::vector<double>& dfy, double Z, double P, doub
 void RK_lyapunov(std::vector<double>& a, std::vector<double>& b, std::vector<double>& lya2, std::vector<double>& lya1,  double x0, double y0,
   size_t t, double h, double time0, double w_q, size_t& iter, size_t &j) {
   size_t size = static_cast<int>(t / h + 1);
-  std::vector<double> x(size);
-  std::vector<double> y(size);
+  std::vector<double> x(size + 1);
+  std::vector<double> y(size + 1);
 
   double yt = 0;
   double xt = 0;
@@ -206,8 +206,8 @@ void RK_lyapunov(std::vector<double>& a, std::vector<double>& b, std::vector<dou
     l2 += log(n2);
     dfy = { ort2[0] / n2, ort2[1] / n2 };
 
-    if ((t0 > t_porog) && ((x[i - 2] - x[i - 1]) * (x[i - 1] - x[i]) < 0) && ((x[i - 2] - x[i - 1]) < 0)) {
-      a[iter] = x[i - 1];
+    if ((t0 > t_porog) && ((y[i - 2] - y[i - 1]) * (y[i - 1] - y[i]) < 0) && ((y[i - 2] - y[i - 1]) < 0)) {
+      a[iter] = y[i - 1];
       b[iter] = w_q;
       ++iter;
     }
