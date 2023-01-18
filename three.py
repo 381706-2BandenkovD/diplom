@@ -147,6 +147,7 @@ def RkLyapunov(loc_max, w_time, lyapun1, lyapun2, lyapun3, w_q):
 
         orth_3 = d[2] - (np.dot(d[2], d[1]) * d[1]) - (np.dot(d[2], d[0]) * d[0]) 
         l3 += np.log(norm(orth_3))
+        print(l3)
         d[2] = orth_3 / norm(orth_3)
 
         if ((t > t_porog) and ((z[i - 2] - z[i - 1]) * (z[i - 1] - z[i]) < 0) and ((z[i - 2] - z[i - 1]) < 0)):
@@ -162,7 +163,7 @@ def RkLyapunov(loc_max, w_time, lyapun1, lyapun2, lyapun3, w_q):
     lyapun2.append(lya2)
     lyapun3.append(lya3)
 
-def localMaxLyap():
+def localMaxLyap(i_py, i_end):
     loc_max = list()
     w_time  = list()
     lyapun1 = list()
@@ -174,8 +175,7 @@ def localMaxLyap():
         RkLyapunov(loc_max, w_time, lyapun1, lyapun2, lyapun3, i_py)
         l_time.append(i_py)
         i_py += 0.00001
-        if i_py == 0.005:
-            print("POLOVINA")
+        print("w_q = ", i_py)
 
 
     print("record to the file")
@@ -262,13 +262,13 @@ if __name__ == "__main__":
 
     t_porog = 100000
     T  = 200000
-    h = 0.05
+    h = 0.1
     x0 = 0.2
     y0 = 0.2
     z0 = 0.2
 
-    i_py = 0.002
-    i_end = 0.008
+    i_py = 0.005
+    i_end = 0.006
     
-    Realisation()
-    #localMaxLyap()
+    #Realisation()
+    localMaxLyap(i_py, i_end)
