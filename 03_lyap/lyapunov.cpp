@@ -9,11 +9,11 @@
 namespace py = boost::python;
 
 const double a_p = 0.001, a_z = 0.0001, alfa_0 = 0.23, b_p = 0.01, b_z = 0.01, g_p = 0.001, q_p = 6,
-q_z = 5.5, Z0 = 0, Z1 = 1, P0 = 0, P1 = 1, k_z = 0.15, k_p = 0.05, Q0 = 1.8, Qs = 3.2, t_porog = 120000,
+q_z = 5.5, Z0 = 0, Z1 = 1, P0 = 0, P1 = 1, k_z = 0.15, k_p = 0.05, Q0 = 1.8, Qs = 3.2, t_porog = 125000,
 a_r = 0.01, b_r = 0.01, R0 = 2, R1 = 1, q_r = 5.6, k_r = 0.1;
 
 const size_t t = 200000;
-const double t0 = 0, h = 0.005, x0 = 0.2, y0_ = 0.2, z0_ = 0.2;
+const double t0 = 0, h = 0.01, x0 = 0.2, y0_ = 0.2, z0_ = 0.2;
 //double i_py = 0.0, i_end = 0.012;
 double i_py = 0.0045, i_end = 0.00584;
 
@@ -232,8 +232,8 @@ void lyapunov_solution(py::list localM, py::list w_s, py::list ly1, py::list ly2
   size_t j = 0;
   std::vector<double> lmax(9000000);
   std::vector<double> w_SS(9000000);
-  int ili = static_cast<int>(i_py * 100000);
-  int Iend = static_cast<int>(i_end * 100000);
+  int ili = static_cast<int>(i_py * 1000000);
+  int Iend = static_cast<int>(i_end * 1000000);
   std::vector<double> lyapun1(Iend - ili);
   std::vector<double> lyapun2(Iend - ili);
    std::vector<double> lyapun3(Iend - ili);
@@ -242,7 +242,7 @@ void lyapunov_solution(py::list localM, py::list w_s, py::list ly1, py::list ly2
   double start = omp_get_wtime();
 #pragma omp parallel for shared(iter, j)
   for (int i = ili; i < Iend; i += 1) {
-    double w_q = static_cast<double>(i) / 100000;
+    double w_q = static_cast<double>(i) / 1000000;
     RK_lyapunov(lmax, w_SS, lyapun1, lyapun2, lyapun3, w_q, iter, j);
     wwwq[j] = w_q;
     ++j;
